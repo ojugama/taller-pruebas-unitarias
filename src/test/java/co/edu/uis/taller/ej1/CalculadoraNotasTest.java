@@ -42,14 +42,26 @@ class CalculadoraNotasTest {
     // PASO 3: Escribe una prueba que verifique que 4.5 es aprobatoria.
     //         Nombre sugerido: notaCuatroPuntoCincoAprueba
     // ---------------------------------------------------------------
-    // TODO
+    @Test
+    @DisplayName("Una nota de 4.5 es aprobatoria")
+    void notaCuatroPuntoCincoAprueba() {
+        boolean isAprobado = calculadora.aprobo(4.5);
+
+        assertTrue(isAprobado);
+    }
 
 
     // ---------------------------------------------------------------
     // PASO 4: Escribe una prueba que verifique que 2.9 NO es aprobatoria.
     //         Nombre sugerido: notaDosPuntoNueveReprueba
     // ---------------------------------------------------------------
-    // TODO
+    @Test
+    @DisplayName("Una nota de 2.9 NO es aprobatoria")
+    void notaDospPuntoNueveReprueba() {
+        boolean isAprobado = calculadora.aprobo(2.9);
+
+        assertFalse(isAprobado);
+    }
 
 
     // ---------------------------------------------------------------
@@ -57,20 +69,42 @@ class CalculadoraNotasTest {
     //         Nombre sugerido: notaTresExactaAprueba
     //         (¡Atención! Esta prueba va a descubrir algo...)
     // ---------------------------------------------------------------
-    // TODO
+    @Test
+    @DisplayName("Valor límite: 3.0 es aprobatoria")
+    void notaTresExactaAprueba() {
+        boolean isAprobado = calculadora.aprobo(3.0);
+
+        assertTrue(isAprobado);
+    }
 
 
     // ---------------------------------------------------------------
     // PASO 7: Verifica que una lista vacía lanza IllegalArgumentException.
     //         Usa assertThrows(...)
     // ---------------------------------------------------------------
-    // TODO
+    @Test
+    @DisplayName("Una lista vacía lanza IllegalArgumentException")
+    void listaVaciaLanzaExcepcion() {
+        List<Double> vacia = List.of();
 
+        assertThrows(IllegalArgumentException.class,
+                () -> calculadora.promedio(vacia));
+    }
 
     // ---------------------------------------------------------------
     // PASO 8: Verifica que una nota de 5.5 lanza IllegalArgumentException
     //         y que el mensaje contiene "fuera de rango".
     // ---------------------------------------------------------------
-    // TODO
+    @Test
+    @DisplayName("Una nota de 5.5 está fuera de rango")
+    void notaFueraDeRangoLanzaExcepcion() {
+        List<Double> notas = List.of(4.0, 5.5);
+        
+        IllegalArgumentException ex = assertThrows(
+                IllegalArgumentException.class,
+                () -> calculadora.promedio(notas)
+        );
 
+        assertTrue(ex.getMessage().contains("fuera de rango"));
+    }
 }

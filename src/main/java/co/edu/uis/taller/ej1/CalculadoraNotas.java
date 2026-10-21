@@ -4,11 +4,11 @@ import java.util.List;
 
 /**
  * Ejercicio 1 - Calculadora de notas en escala de 0.0 a 5.0.
- *
+ * <p>
  * Reglas del negocio:
- *  - Una nota válida está entre 0.0 y 5.0 (inclusive).
- *  - El estudiante APRUEBA si su nota es mayor o igual a 3.0.
- *  - No se puede calcular el promedio de una lista nula o vacía.
+ * - Una nota válida está entre 0.0 y 5.0 (inclusive).
+ * - El estudiante APRUEBA si su nota es mayor o igual a 3.0.
+ * - No se puede calcular el promedio de una lista nula o vacía.
  */
 public class CalculadoraNotas {
 
@@ -40,6 +40,6 @@ public class CalculadoraNotas {
      * Indica si una nota es aprobatoria (mayor o igual a 3.0).
      */
     public boolean aprobo(double nota) {
-        return nota > NOTA_APROBATORIA;
+        return nota >= NOTA_APROBATORIA;
     }
 }
