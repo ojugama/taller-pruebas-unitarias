@@ -44,20 +44,70 @@ class ValidadorContrasenaTest {
     //   b) sin mayúscula           -> MSG_MAYUSCULA   (ej: "segura2026")
     //   c) sin número              -> MSG_NUMERO      (ej: "SeguraUIS")
     // ---------------------------------------------------------------
-    // TODO
+    @Test
+    @DisplayName("Una contraseña nula lanza excepción")
+    void contrasenaNulaLanzaExcepcion() {
+        IllegalArgumentException ex = assertThrows(
+                IllegalArgumentException.class,
+                () -> validador.validar(null)
+        );
+
+        assertEquals(ValidadorContrasena.MSG_NULA, ex.getMessage());
+    }
+
+    @Test
+    @DisplayName("Una contraseña sin mayúscula lanza excepción")
+    void contrasenaSinMayusculaLanzaExcepcion() {
+        IllegalArgumentException ex = assertThrows(
+                IllegalArgumentException.class,
+                () -> validador.validar("segura2026")
+        );
+
+        assertEquals(ValidadorContrasena.MSG_MAYUSCULA, ex.getMessage());
+    }
+
+    @Test
+    @DisplayName("Una contrasseña sin número lanza excepción")
+    void contrasenaSinNumeroLanzaExcepcion() {
+        IllegalArgumentException ex = assertThrows(
+                IllegalArgumentException.class,
+                () -> validador.validar("SeguraUIS")
+        );
+
+        assertEquals(ValidadorContrasena.MSG_NUMERO, ex.getMessage());
+    }
 
 
     // ---------------------------------------------------------------
     // PASO 4: Prueba PARAMETRIZADA con @ValueSource:
     //   varias contraseñas inválidas -> esValida(...) debe ser false
     // ---------------------------------------------------------------
-    // TODO
+    @ParameterizedTest(name = "\"{0}\" no es válida")
+    @ValueSource(strings = {
+            "", "Ab1", "segura2026", "SeguraUIS", "12345678"
+    })
+    @DisplayName("Contraseñas inválidas devuelven false")
+    void contrasenasInvalidas(String contrasena) {
+        assertFalse(validador.esValida(contrasena));
+    }
 
 
     // ---------------------------------------------------------------
     // PASO 5: Prueba PARAMETRIZADA con @CsvSource:
     //   cada fila = contraseña, mensaje de error esperado
     // ---------------------------------------------------------------
-    // TODO
-
+    @ParameterizedTest(name = "\"{0}\" -> {1}")
+    @CsvSource({
+            "Ab1, Debe tener al menos 8 caracteres",
+            "segura2026, Debe tener al menos una mayúscula",
+            "SeguraUIS, Debe tener al menos un número"
+    })
+    @DisplayName("Cada regla incumplida produce su propio mensaje")
+    void mensajeSegunRegla(String contrasena, String mensajeEsperado) {
+        IllegalArgumentException ex = assertThrows(
+                IllegalArgumentException.class,
+                () -> validador.validar(contrasena)
+        );
+        assertEquals(mensajeEsperado, ex.getMessage());
+    }
 }
